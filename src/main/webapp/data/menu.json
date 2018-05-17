@@ -1,0 +1,170 @@
+[
+  {
+    "id": "aa",
+    "name": "技术设施维护管理",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "ab",
+    "name": "仪器设备管理",
+    "isParent": null,
+    "pId": "aa",
+    "page": "../equapment/equapIndex.action"
+  },
+  {
+    "id": "ac",
+    "name": "设备校准检修",
+    "isParent": null,
+    "pId": "aa",
+    "page": "../equapment/repairIndex.action"
+  },
+  {
+    "id": "ad",
+    "name": "设备购置计划",
+    "isParent": null,
+    "pId": "aa",
+    "page": "../equapment/planIndex.action"
+  },
+  {
+    "id": "ae",
+    "name": "技术资料图纸管理",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "af",
+    "name": "资料图纸管理",
+    "isParent": null,
+    "pId": "ae",
+    "page": "../dataChart/dataChartIndex.action"
+  },
+  {
+    "id": "ag",
+    "name": "站点设备运行管理",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "ah",
+    "name": "站点基本信息",
+    "isParent": null,
+    "pId": "ag",
+    "page": "../station/infoIndex.action"
+  },
+  {
+    "id": "ai",
+    "name": "运行情况",
+    "isParent": null,
+    "pId": "ag",
+    "page": "../station/runIndex.action"
+  },
+  {
+    "id": "aj",
+    "name": "维护情况",
+    "isParent": null,
+    "pId": "ag",
+    "page": "../station/siteMaintainIndex.action"
+  },
+  {
+    "id": "ak",
+    "name": "监测台建筑管理",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "al",
+    "name": "监测台建筑管理",
+    "isParent": null,
+    "pId": "ak",
+    "page": "../build/buildIndex.action"
+  },
+  {
+    "id": "am",
+    "name": "系统管理",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "an",
+    "name": "用户管理",
+    "isParent": null,
+    "pId": "am",
+    "page": "../system/userIndex.action"
+  },
+  {
+    "id": "an1",
+    "name": "菜单管理",
+    "isParent": null,
+    "pId": "am",
+    "page": "../system/menuInfo.action"
+  },
+  {
+    "id": "ao",
+    "name": "角色管理",
+    "isParent": null,
+    "pId": "am",
+    "page": "../system/roleIndex.action"
+  },
+  {
+    "id": "ap",
+    "name": "运行监控",
+    "isParent": null,
+    "pId": "am",
+    "page": "../system/activeIndex.action"
+  },
+  {
+    "id": "aq",
+    "name": "数据字典",
+    "isParent": null,
+    "pId": "am",
+    "page": "../system/dictionaryIndex.action"
+  },
+  {
+    "id": "ar",
+    "name": "审批流转",
+    "isParent": null,
+    "pId": "0",
+    "page": ""
+  },
+  {
+    "id": "as",
+    "name": "审批流程管理",
+    "isParent": null,
+    "pId": "ar",
+    "page": "../workflow/processDefinitionList.action"
+  },
+  {
+    "id": "at",
+    "name": "申请模板管理",
+    "isParent": null,
+    "pId": "ar",
+    "page": "../workflow/applicationTemplateList.action"
+  },
+  {
+    "id": "au",
+    "name": "起草申请",
+    "isParent": null,
+    "pId": "ar",
+    "page": "../workflow/flowTemplateList.action"
+  },
+  {
+    "id": "av",
+    "name": "待我审批",
+    "isParent": null,
+    "pId": "ar",
+    "page": "../workflow/flowMyTaskList.action"
+  },
+  {
+    "id": "aw",
+    "name": "我的申请查询",
+    "isParent": null,
+    "pId": "ar",
+    "page": "../workflow/flowMyApplicationList.action"
+  }
+]

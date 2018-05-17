@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecBuildMapper">
+    <resultMap id="BaseResultMap" type="cn.ixan.elec.domain.ElecBuild">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="jct_id" property="jctId" jdbcType="VARCHAR"/>
+        <result column="build_name" property="buildName" jdbcType="VARCHAR"/>
+        <result column="build_type" property="buildType" jdbcType="VARCHAR"/>
+        <result column="build_layer" property="buildLayer" jdbcType="INTEGER"/>
+        <result column="build_area" property="buildArea" jdbcType="DOUBLE"/>
+        <result column="build_start_date" property="buildStartDate" jdbcType="DATE"/>
+        <result column="extend_build_date" property="extendBuildDate" jdbcType="DATE"/>
+        <result column="extend_build_area" property="extendBuildArea" jdbcType="DOUBLE"/>
+        <result column="dx_date" property="dxDate" jdbcType="DATE"/>
+        <result column="build_expense" property="buildExpense" jdbcType="DOUBLE"/>
+        <result column="use_date" property="useDate" jdbcType="DATE"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, jct_id, build_name, build_type, build_layer, build_area, build_start_date, extend_build_date,
+        extend_build_area, dx_date, build_expense, use_date, comment
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.ixan.elec.domain.ElecBuildExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from elec_build
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from elec_build
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from elec_build
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="cn.ixan.elec.domain.ElecBuildExample">
+        delete from elec_build
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.ixan.elec.domain.ElecBuild">
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        insert into elec_build (id, jct_id, build_name,
+        build_type, build_layer, build_area,
+        build_start_date, extend_build_date, extend_build_area,
+        dx_date, build_expense, use_date,
+        comment)
+        values (#{id,jdbcType=VARCHAR}, #{jctId,jdbcType=VARCHAR}, #{buildName,jdbcType=VARCHAR},
+        #{buildType,jdbcType=VARCHAR}, #{buildLayer,jdbcType=INTEGER}, #{buildArea,jdbcType=DOUBLE},
+        #{buildStartDate,jdbcType=DATE}, #{extendBuildDate,jdbcType=DATE}, #{extendBuildArea,jdbcType=DOUBLE},
+        #{dxDate,jdbcType=DATE}, #{buildExpense,jdbcType=DOUBLE}, #{useDate,jdbcType=DATE},
+        #{comment,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.ixan.elec.domain.ElecBuild">
+        insert into elec_build
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="jctId != null">
+                jct_id,
+            </if>
+            <if test="buildName != null">
+                build_name,
+            </if>
+            <if test="buildType != null">
+                build_type,
+            </if>
+            <if test="buildLayer != null">
+                build_layer,
+            </if>
+            <if test="buildArea != null">
+                build_area,
+            </if>
+            <if test="buildStartDate != null">
+                build_start_date,
+            </if>
+            <if test="extendBuildDate != null">
+                extend_build_date,
+            </if>
+            <if test="extendBuildArea != null">
+                extend_build_area,
+            </if>
+            <if test="dxDate != null">
+                dx_date,
+            </if>
+            <if test="buildExpense != null">
+                build_expense,
+            </if>
+            <if test="useDate != null">
+                use_date,
+            </if>
+            <if test="comment != null">
+                comment,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jctId != null">
+                #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="buildName != null">
+                #{buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="buildType != null">
+                #{buildType,jdbcType=VARCHAR},
+            </if>
+            <if test="buildLayer != null">
+                #{buildLayer,jdbcType=INTEGER},
+            </if>
+            <if test="buildArea != null">
+                #{buildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="buildStartDate != null">
+                #{buildStartDate,jdbcType=DATE},
+            </if>
+            <if test="extendBuildDate != null">
+                #{extendBuildDate,jdbcType=DATE},
+            </if>
+            <if test="extendBuildArea != null">
+                #{extendBuildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="dxDate != null">
+                #{dxDate,jdbcType=DATE},
+            </if>
+            <if test="buildExpense != null">
+                #{buildExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useDate != null">
+                #{useDate,jdbcType=DATE},
+            </if>
+            <if test="comment != null">
+                #{comment,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.ixan.elec.domain.ElecBuildExample" resultType="java.lang.Integer">
+        select count(*) from elec_build
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update elec_build
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jctId != null">
+                jct_id = #{record.jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.buildName != null">
+                build_name = #{record.buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.buildType != null">
+                build_type = #{record.buildType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.buildLayer != null">
+                build_layer = #{record.buildLayer,jdbcType=INTEGER},
+            </if>
+            <if test="record.buildArea != null">
+                build_area = #{record.buildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="record.buildStartDate != null">
+                build_start_date = #{record.buildStartDate,jdbcType=DATE},
+            </if>
+            <if test="record.extendBuildDate != null">
+                extend_build_date = #{record.extendBuildDate,jdbcType=DATE},
+            </if>
+            <if test="record.extendBuildArea != null">
+                extend_build_area = #{record.extendBuildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="record.dxDate != null">
+                dx_date = #{record.dxDate,jdbcType=DATE},
+            </if>
+            <if test="record.buildExpense != null">
+                build_expense = #{record.buildExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="record.useDate != null">
+                use_date = #{record.useDate,jdbcType=DATE},
+            </if>
+            <if test="record.comment != null">
+                comment = #{record.comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update elec_build
+        set id = #{record.id,jdbcType=VARCHAR},
+        jct_id = #{record.jctId,jdbcType=VARCHAR},
+        build_name = #{record.buildName,jdbcType=VARCHAR},
+        build_type = #{record.buildType,jdbcType=VARCHAR},
+        build_layer = #{record.buildLayer,jdbcType=INTEGER},
+        build_area = #{record.buildArea,jdbcType=DOUBLE},
+        build_start_date = #{record.buildStartDate,jdbcType=DATE},
+        extend_build_date = #{record.extendBuildDate,jdbcType=DATE},
+        extend_build_area = #{record.extendBuildArea,jdbcType=DOUBLE},
+        dx_date = #{record.dxDate,jdbcType=DATE},
+        build_expense = #{record.buildExpense,jdbcType=DOUBLE},
+        use_date = #{record.useDate,jdbcType=DATE},
+        comment = #{record.comment,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.ixan.elec.domain.ElecBuild">
+        update elec_build
+        <set>
+            <if test="jctId != null">
+                jct_id = #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="buildName != null">
+                build_name = #{buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="buildType != null">
+                build_type = #{buildType,jdbcType=VARCHAR},
+            </if>
+            <if test="buildLayer != null">
+                build_layer = #{buildLayer,jdbcType=INTEGER},
+            </if>
+            <if test="buildArea != null">
+                build_area = #{buildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="buildStartDate != null">
+                build_start_date = #{buildStartDate,jdbcType=DATE},
+            </if>
+            <if test="extendBuildDate != null">
+                extend_build_date = #{extendBuildDate,jdbcType=DATE},
+            </if>
+            <if test="extendBuildArea != null">
+                extend_build_area = #{extendBuildArea,jdbcType=DOUBLE},
+            </if>
+            <if test="dxDate != null">
+                dx_date = #{dxDate,jdbcType=DATE},
+            </if>
+            <if test="buildExpense != null">
+                build_expense = #{buildExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useDate != null">
+                use_date = #{useDate,jdbcType=DATE},
+            </if>
+            <if test="comment != null">
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.ixan.elec.domain.ElecBuild">
+    update elec_build
+    set jct_id = #{jctId,jdbcType=VARCHAR},
+      build_name = #{buildName,jdbcType=VARCHAR},
+      build_type = #{buildType,jdbcType=VARCHAR},
+      build_layer = #{buildLayer,jdbcType=INTEGER},
+      build_area = #{buildArea,jdbcType=DOUBLE},
+      build_start_date = #{buildStartDate,jdbcType=DATE},
+      extend_build_date = #{extendBuildDate,jdbcType=DATE},
+      extend_build_area = #{extendBuildArea,jdbcType=DOUBLE},
+      dx_date = #{dxDate,jdbcType=DATE},
+      build_expense = #{buildExpense,jdbcType=DOUBLE},
+      use_date = #{useDate,jdbcType=DATE},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <sql id="baseResult">
+        build.id id,
+        build.build_name buildName,
+        dict1.dict_name jctId,
+        build.build_layer buildLayer,
+        build.build_expense buildExpense,
+        dict2.dict_name buildType,
+        build.build_area buildArea,
+        build.dx_date dxDate,
+        build. COMMENT COMMENT
+    </sql>
+    <select id="findAllBuildInfo" resultType="cn.ixan.elec.domain.ElecBuild">
+        SELECT
+        <include refid="baseResult"/>
+        FROM elec_build AS build
+        LEFT JOIN elec_dict dict1 ON build.jct_id = dict1.id
+        LEFT JOIN elec_dict dict2 ON build.build_type = dict2.id
+        order by build.dx_date desc
+    </select>
+    <!--模糊查询监测台建筑信息-->
+    <select id="queryBuildInfoByExample" parameterType="cn.ixan.elec.domain.ElecBuild" resultType="cn.ixan.elec.vo.ElecBuildVo">
+        SELECT
+        <include refid="baseResult"/>
+        FROM elec_build AS build
+        LEFT JOIN elec_dict dict1 ON build.jct_id = dict1.id
+        LEFT JOIN elec_dict dict2 ON build.build_type = dict2.id
+        <where>
+            <if test="buildName != null and buildName != ''">
+                And build.build_name LIKE CONCAT('%','${buildName}','%')
+            </if>
+            <if test="jctId != null and jctId != ''">
+                And dict1.id = #{jctId}
+            </if>
+            <if test="buildType != null and buildType != ''">
+                And dict2.id = #{buildType}
+            </if>
+        </where>
+        order by build.dx_date desc
+    </select>
+</mapper>

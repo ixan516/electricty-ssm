@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecEquapmentMapper" >
+    <resultMap id="BaseResultMap" type="cn.ixan.elec.domain.ElecEquapment" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="jct_id" property="jctId" jdbcType="VARCHAR" />
+        <result column="dev_name" property="devName" jdbcType="VARCHAR" />
+        <result column="dev_type" property="devType" jdbcType="VARCHAR" />
+        <result column="quality" property="quality" jdbcType="INTEGER" />
+        <result column="qunit" property="qunit" jdbcType="VARCHAR" />
+        <result column="dev_expense" property="devExpense" jdbcType="DOUBLE" />
+        <result column="use_unit" property="useUnit" jdbcType="VARCHAR" />
+        <result column="configure" property="configure" jdbcType="VARCHAR" />
+        <result column="spec_type" property="specType" jdbcType="VARCHAR" />
+        <result column="trade_mark" property="tradeMark" jdbcType="VARCHAR" />
+        <result column="dev_state" property="devState" jdbcType="VARCHAR" />
+        <result column="produce_home" property="produceHome" jdbcType="VARCHAR" />
+        <result column="produce_area" property="produceArea" jdbcType="VARCHAR" />
+        <result column="useness" property="useness" jdbcType="VARCHAR" />
+        <result column="repair_cycle" property="repairCycle" jdbcType="VARCHAR" />
+        <result column="op_unit" property="opUnit" jdbcType="VARCHAR" />
+        <result column="use_date" property="useDate" jdbcType="DATE" />
+        <result column="plan_date" property="planDate" jdbcType="DATE" />
+        <result column="adjust_period" property="adjustPeriod" jdbcType="VARCHAR" />
+        <result column="ap_unit" property="apUnit" jdbcType="VARCHAR" />
+        <result column="run_desc" property="runDesc" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, jct_id, dev_name, dev_type, quality, qunit, dev_expense, use_unit, configure,
+        spec_type, trade_mark, dev_state, produce_home, produce_area, useness, repair_cycle,
+        op_unit, use_date, plan_date, adjust_period, ap_unit, run_desc, comment
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.ixan.elec.domain.ElecEquapmentExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from elec_equapment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from elec_equapment
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from elec_equapment
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="cn.ixan.elec.domain.ElecEquapmentExample" >
+        delete from elec_equapment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.ixan.elec.domain.ElecEquapment" >
+        insert into elec_equapment
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        (id, jct_id, dev_name,
+        dev_type, quality, qunit,
+        dev_expense, use_unit, configure,
+        spec_type, trade_mark, dev_state,
+        produce_home, produce_area, useness,
+        repair_cycle, op_unit, use_date,
+        plan_date, adjust_period, ap_unit,
+        run_desc, comment)
+        values (#{id,jdbcType=INTEGER}, #{jctId,jdbcType=VARCHAR}, #{devName,jdbcType=VARCHAR},
+        #{devType,jdbcType=VARCHAR}, #{quality,jdbcType=INTEGER}, #{qunit,jdbcType=VARCHAR},
+        #{devExpense,jdbcType=DOUBLE}, #{useUnit,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR},
+        #{specType,jdbcType=VARCHAR}, #{tradeMark,jdbcType=VARCHAR}, #{devState,jdbcType=VARCHAR},
+        #{produceHome,jdbcType=VARCHAR}, #{produceArea,jdbcType=VARCHAR}, #{useness,jdbcType=VARCHAR},
+        #{repairCycle,jdbcType=VARCHAR}, #{opUnit,jdbcType=VARCHAR}, #{useDate,jdbcType=DATE},
+        #{planDate,jdbcType=DATE}, #{adjustPeriod,jdbcType=VARCHAR}, #{apUnit,jdbcType=VARCHAR},
+        #{runDesc,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.ixan.elec.domain.ElecEquapment" >
+        insert into elec_equapment
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="jctId != null" >
+                jct_id,
+            </if>
+            <if test="devName != null" >
+                dev_name,
+            </if>
+            <if test="devType != null" >
+                dev_type,
+            </if>
+            <if test="quality != null" >
+                quality,
+            </if>
+            <if test="qunit != null" >
+                qunit,
+            </if>
+            <if test="devExpense != null" >
+                dev_expense,
+            </if>
+            <if test="useUnit != null" >
+                use_unit,
+            </if>
+            <if test="configure != null" >
+                configure,
+            </if>
+            <if test="specType != null" >
+                spec_type,
+            </if>
+            <if test="tradeMark != null" >
+                trade_mark,
+            </if>
+            <if test="devState != null" >
+                dev_state,
+            </if>
+            <if test="produceHome != null" >
+                produce_home,
+            </if>
+            <if test="produceArea != null" >
+                produce_area,
+            </if>
+            <if test="useness != null" >
+                useness,
+            </if>
+            <if test="repairCycle != null" >
+                repair_cycle,
+            </if>
+            <if test="opUnit != null" >
+                op_unit,
+            </if>
+            <if test="useDate != null" >
+                use_date,
+            </if>
+            <if test="planDate != null" >
+                plan_date,
+            </if>
+            <if test="adjustPeriod != null" >
+                adjust_period,
+            </if>
+            <if test="apUnit != null" >
+                ap_unit,
+            </if>
+            <if test="runDesc != null" >
+                run_desc,
+            </if>
+            <if test="comment != null" >
+                comment,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jctId != null" >
+                #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null" >
+                #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="devType != null" >
+                #{devType,jdbcType=VARCHAR},
+            </if>
+            <if test="quality != null" >
+                #{quality,jdbcType=INTEGER},
+            </if>
+            <if test="qunit != null" >
+                #{qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="devExpense != null" >
+                #{devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useUnit != null" >
+                #{useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="configure != null" >
+                #{configure,jdbcType=VARCHAR},
+            </if>
+            <if test="specType != null" >
+                #{specType,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMark != null" >
+                #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="devState != null" >
+                #{devState,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="produceArea != null" >
+                #{produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="useness != null" >
+                #{useness,jdbcType=VARCHAR},
+            </if>
+            <if test="repairCycle != null" >
+                #{repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="opUnit != null" >
+                #{opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="useDate != null" >
+                #{useDate,jdbcType=DATE},
+            </if>
+            <if test="planDate != null" >
+                #{planDate,jdbcType=DATE},
+            </if>
+            <if test="adjustPeriod != null" >
+                #{adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="apUnit != null" >
+                #{apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="runDesc != null" >
+                #{runDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                #{comment,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.ixan.elec.domain.ElecEquapmentExample" resultType="java.lang.Integer" >
+        select count(*) from elec_equapment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update elec_equapment
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.jctId != null" >
+                jct_id = #{record.jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devName != null" >
+                dev_name = #{record.devName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devType != null" >
+                dev_type = #{record.devType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.quality != null" >
+                quality = #{record.quality,jdbcType=INTEGER},
+            </if>
+            <if test="record.qunit != null" >
+                qunit = #{record.qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devExpense != null" >
+                dev_expense = #{record.devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="record.useUnit != null" >
+                use_unit = #{record.useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.configure != null" >
+                configure = #{record.configure,jdbcType=VARCHAR},
+            </if>
+            <if test="record.specType != null" >
+                spec_type = #{record.specType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tradeMark != null" >
+                trade_mark = #{record.tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devState != null" >
+                dev_state = #{record.devState,jdbcType=VARCHAR},
+            </if>
+            <if test="record.produceHome != null" >
+                produce_home = #{record.produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="record.produceArea != null" >
+                produce_area = #{record.produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="record.useness != null" >
+                useness = #{record.useness,jdbcType=VARCHAR},
+            </if>
+            <if test="record.repairCycle != null" >
+                repair_cycle = #{record.repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="record.opUnit != null" >
+                op_unit = #{record.opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.useDate != null" >
+                use_date = #{record.useDate,jdbcType=DATE},
+            </if>
+            <if test="record.planDate != null" >
+                plan_date = #{record.planDate,jdbcType=DATE},
+            </if>
+            <if test="record.adjustPeriod != null" >
+                adjust_period = #{record.adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="record.apUnit != null" >
+                ap_unit = #{record.apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.runDesc != null" >
+                run_desc = #{record.runDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.comment != null" >
+                comment = #{record.comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update elec_equapment
+        set id = #{record.id,jdbcType=INTEGER},
+        jct_id = #{record.jctId,jdbcType=VARCHAR},
+        dev_name = #{record.devName,jdbcType=VARCHAR},
+        dev_type = #{record.devType,jdbcType=VARCHAR},
+        quality = #{record.quality,jdbcType=INTEGER},
+        qunit = #{record.qunit,jdbcType=VARCHAR},
+        dev_expense = #{record.devExpense,jdbcType=DOUBLE},
+        use_unit = #{record.useUnit,jdbcType=VARCHAR},
+        configure = #{record.configure,jdbcType=VARCHAR},
+        spec_type = #{record.specType,jdbcType=VARCHAR},
+        trade_mark = #{record.tradeMark,jdbcType=VARCHAR},
+        dev_state = #{record.devState,jdbcType=VARCHAR},
+        produce_home = #{record.produceHome,jdbcType=VARCHAR},
+        produce_area = #{record.produceArea,jdbcType=VARCHAR},
+        useness = #{record.useness,jdbcType=VARCHAR},
+        repair_cycle = #{record.repairCycle,jdbcType=VARCHAR},
+        op_unit = #{record.opUnit,jdbcType=VARCHAR},
+        use_date = #{record.useDate,jdbcType=DATE},
+        plan_date = #{record.planDate,jdbcType=DATE},
+        adjust_period = #{record.adjustPeriod,jdbcType=VARCHAR},
+        ap_unit = #{record.apUnit,jdbcType=VARCHAR},
+        run_desc = #{record.runDesc,jdbcType=VARCHAR},
+        comment = #{record.comment,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.ixan.elec.domain.ElecEquapment" >
+        update elec_equapment
+        <set >
+            <if test="jctId != null" >
+                jct_id = #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null" >
+                dev_name = #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="devType != null" >
+                dev_type = #{devType,jdbcType=VARCHAR},
+            </if>
+            <if test="quality != null" >
+                quality = #{quality,jdbcType=INTEGER},
+            </if>
+            <if test="qunit != null" >
+                qunit = #{qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="devExpense != null" >
+                dev_expense = #{devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useUnit != null" >
+                use_unit = #{useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="configure != null" >
+                configure = #{configure,jdbcType=VARCHAR},
+            </if>
+            <if test="specType != null" >
+                spec_type = #{specType,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMark != null" >
+                trade_mark = #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="devState != null" >
+                dev_state = #{devState,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                produce_home = #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="produceArea != null" >
+                produce_area = #{produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="useness != null" >
+                useness = #{useness,jdbcType=VARCHAR},
+            </if>
+            <if test="repairCycle != null" >
+                repair_cycle = #{repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="opUnit != null" >
+                op_unit = #{opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="useDate != null" >
+                use_date = #{useDate,jdbcType=DATE},
+            </if>
+            <if test="planDate != null" >
+                plan_date = #{planDate,jdbcType=DATE},
+            </if>
+            <if test="adjustPeriod != null" >
+                adjust_period = #{adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="apUnit != null" >
+                ap_unit = #{apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="runDesc != null" >
+                run_desc = #{runDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.ixan.elec.domain.ElecEquapment" >
+        update elec_equapment
+        set jct_id = #{jctId,jdbcType=VARCHAR},
+        dev_name = #{devName,jdbcType=VARCHAR},
+        dev_type = #{devType,jdbcType=VARCHAR},
+        quality = #{quality,jdbcType=INTEGER},
+        qunit = #{qunit,jdbcType=VARCHAR},
+        dev_expense = #{devExpense,jdbcType=DOUBLE},
+        use_unit = #{useUnit,jdbcType=VARCHAR},
+        configure = #{configure,jdbcType=VARCHAR},
+        spec_type = #{specType,jdbcType=VARCHAR},
+        trade_mark = #{tradeMark,jdbcType=VARCHAR},
+        dev_state = #{devState,jdbcType=VARCHAR},
+        produce_home = #{produceHome,jdbcType=VARCHAR},
+        produce_area = #{produceArea,jdbcType=VARCHAR},
+        useness = #{useness,jdbcType=VARCHAR},
+        repair_cycle = #{repairCycle,jdbcType=VARCHAR},
+        op_unit = #{opUnit,jdbcType=VARCHAR},
+        use_date = #{useDate,jdbcType=DATE},
+        plan_date = #{planDate,jdbcType=DATE},
+        adjust_period = #{adjustPeriod,jdbcType=VARCHAR},
+        ap_unit = #{apUnit,jdbcType=VARCHAR},
+        run_desc = #{runDesc,jdbcType=VARCHAR},
+        comment = #{comment,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!--查询所有的仪器设备-->
+    <sql id="devResult">
+        dev.id id,
+        dev.dev_name devName,
+        dev.spec_type specType,
+        dict.dict_name devState,
+        dev.use_date useDate,
+        dev.repair_cycle repairCycle,
+        dict2.dict_name jctId
+    </sql>
+    <select id="findAllDev" resultType="cn.ixan.elec.domain.ElecEquapment">
+        SELECT
+        <include refid="devResult"/>
+        FROM elec_equapment as dev
+        left join elec_dict dict
+        on dev.dev_state = dict.id
+        LEFT JOIN elec_dict dict2
+        on dev.jct_id = dict2.id
+    </select>
+    <!--模糊查询仪器设备-->
+    <select id="queryEquapmentInfoByExample" parameterType="map" resultType="cn.ixan.elec.domain.ElecEquapment">
+        SELECT
+        <include refid="devResult"/>
+        FROM elec_equapment as dev
+        left join elec_dict dict
+        on dev.dev_state = dict.id
+        LEFT JOIN elec_dict dict2
+        on dev.jct_id = dict2.id
+        <where>
+            <if test="devName != null and devName != ''">
+                And dev.dev_name LIKE CONCAT('%','${devName}','%')
+            </if>
+            <if test="jctId != null and jctId != ''">
+                And dev.jct_id = #{jctId}
+            </if>
+            <if test="stationType != null and stationType != ''">
+                And dev.dev_state = #{stationType}
+            </if>
+        </where>
+    </select>
+    <!--查询所有设备名称-->
+    <select id="findDevices" resultType="map">
+        SELECT
+            dev.id,
+            dev.dev_name name
+        FROM
+            elec_equapment AS dev
+    </select>
+</mapper>

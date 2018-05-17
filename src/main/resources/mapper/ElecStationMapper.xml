@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecStationMapper" >
+    <resultMap id="BaseResultMap" type="cn.ixan.elec.domain.ElecStation" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="jct_id" property="jctId" jdbcType="VARCHAR" />
+        <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+        <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+        <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+        <result column="install_address" property="installAddress" jdbcType="VARCHAR" />
+        <result column="produce_home" property="produceHome" jdbcType="VARCHAR" />
+        <result column="contact_type" property="contactType" jdbcType="VARCHAR" />
+        <result column="station_type" property="stationType" jdbcType="VARCHAR" />
+        <result column="attribute_ground" property="attributeGround" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, jct_id, station_name, station_code, use_start_date, install_address, produce_home,
+        contact_type, station_type, attribute_ground, comment
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.ixan.elec.domain.ElecStationExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from elec_station
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from elec_station
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from elec_station
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="cn.ixan.elec.domain.ElecStationExample" >
+        delete from elec_station
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.ixan.elec.domain.ElecStation" >
+        insert into elec_station
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        (id, jct_id, station_name,
+        station_code, use_start_date, install_address,
+        produce_home, contact_type, station_type,
+        attribute_ground, comment)
+        values (#{id,jdbcType=VARCHAR}, #{jctId,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
+        #{stationCode,jdbcType=VARCHAR}, #{useStartDate,jdbcType=DATE}, #{installAddress,jdbcType=VARCHAR},
+        #{produceHome,jdbcType=VARCHAR}, #{contactType,jdbcType=VARCHAR}, #{stationType,jdbcType=VARCHAR},
+        #{attributeGround,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.ixan.elec.domain.ElecStation" >
+        insert into elec_station
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="jctId != null" >
+                jct_id,
+            </if>
+            <if test="stationName != null" >
+                station_name,
+            </if>
+            <if test="stationCode != null" >
+                station_code,
+            </if>
+            <if test="useStartDate != null" >
+                use_start_date,
+            </if>
+            <if test="installAddress != null" >
+                install_address,
+            </if>
+            <if test="produceHome != null" >
+                produce_home,
+            </if>
+            <if test="contactType != null" >
+                contact_type,
+            </if>
+            <if test="stationType != null" >
+                station_type,
+            </if>
+            <if test="attributeGround != null" >
+                attribute_ground,
+            </if>
+            <if test="comment != null" >
+                comment,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jctId != null" >
+                #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationName != null" >
+                #{stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="stationCode != null" >
+                #{stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="useStartDate != null" >
+                #{useStartDate,jdbcType=DATE},
+            </if>
+            <if test="installAddress != null" >
+                #{installAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="contactType != null" >
+                #{contactType,jdbcType=VARCHAR},
+            </if>
+            <if test="stationType != null" >
+                #{stationType,jdbcType=VARCHAR},
+            </if>
+            <if test="attributeGround != null" >
+                #{attributeGround,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                #{comment,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.ixan.elec.domain.ElecStationExample" resultType="java.lang.Integer" >
+        select count(*) from elec_station
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update elec_station
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jctId != null" >
+                jct_id = #{record.jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stationName != null" >
+                station_name = #{record.stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stationCode != null" >
+                station_code = #{record.stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.useStartDate != null" >
+                use_start_date = #{record.useStartDate,jdbcType=DATE},
+            </if>
+            <if test="record.installAddress != null" >
+                install_address = #{record.installAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.produceHome != null" >
+                produce_home = #{record.produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="record.contactType != null" >
+                contact_type = #{record.contactType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stationType != null" >
+                station_type = #{record.stationType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.attributeGround != null" >
+                attribute_ground = #{record.attributeGround,jdbcType=VARCHAR},
+            </if>
+            <if test="record.comment != null" >
+                comment = #{record.comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update elec_station
+        set id = #{record.id,jdbcType=VARCHAR},
+        jct_id = #{record.jctId,jdbcType=VARCHAR},
+        station_name = #{record.stationName,jdbcType=VARCHAR},
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+        use_start_date = #{record.useStartDate,jdbcType=DATE},
+        install_address = #{record.installAddress,jdbcType=VARCHAR},
+        produce_home = #{record.produceHome,jdbcType=VARCHAR},
+        contact_type = #{record.contactType,jdbcType=VARCHAR},
+        station_type = #{record.stationType,jdbcType=VARCHAR},
+        attribute_ground = #{record.attributeGround,jdbcType=VARCHAR},
+        comment = #{record.comment,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.ixan.elec.domain.ElecStation" >
+        update elec_station
+        <set >
+            <if test="jctId != null" >
+                jct_id = #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationName != null" >
+                station_name = #{stationName,jdbcType=VARCHAR},
+            </if>
+            <if test="stationCode != null" >
+                station_code = #{stationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="useStartDate != null" >
+                use_start_date = #{useStartDate,jdbcType=DATE},
+            </if>
+            <if test="installAddress != null" >
+                install_address = #{installAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                produce_home = #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="contactType != null" >
+                contact_type = #{contactType,jdbcType=VARCHAR},
+            </if>
+            <if test="stationType != null" >
+                station_type = #{stationType,jdbcType=VARCHAR},
+            </if>
+            <if test="attributeGround != null" >
+                attribute_ground = #{attributeGround,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.ixan.elec.domain.ElecStation" >
+        update elec_station
+        set jct_id = #{jctId,jdbcType=VARCHAR},
+        station_name = #{stationName,jdbcType=VARCHAR},
+        station_code = #{stationCode,jdbcType=VARCHAR},
+        use_start_date = #{useStartDate,jdbcType=DATE},
+        install_address = #{installAddress,jdbcType=VARCHAR},
+        produce_home = #{produceHome,jdbcType=VARCHAR},
+        contact_type = #{contactType,jdbcType=VARCHAR},
+        station_type = #{stationType,jdbcType=VARCHAR},
+        attribute_ground = #{attributeGround,jdbcType=VARCHAR},
+        comment = #{comment,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!--查询站点信息-->
+    <sql id="siteResult">
+        site.id id,
+        dict1.dict_name jctId,
+        site.attribute_ground attributeGround,
+        site.station_code stationCode,
+        site.station_name stationName,
+        dict2.dict_name stationType,
+        site.contact_type contacType,
+        site.install_address installAddress,
+        site.`comment` COMMENT
+    </sql>
+    <select id="getAllSiteInfo" resultType="cn.ixan.elec.vo.ElecStationVo">
+        SELECT
+        <include refid="siteResult"/>
+        FROM
+        elec_station AS site
+        LEFT JOIN elec_dict dict1 ON site.jct_id = dict1.id
+        LEFT JOIN elec_dict dict2 ON site.station_type = dict2.id
+    </select>
+    <!--模糊查询站点信息-->
+    <select id="querySiteInfoByExample" parameterType="cn.ixan.elec.domain.ElecStation" resultType="cn.ixan.elec.vo.ElecStationVo">
+        SELECT
+        <include refid="siteResult"/>
+        FROM
+        elec_station AS site
+        LEFT JOIN elec_dict dict1 ON site.jct_id = dict1.id
+        LEFT JOIN elec_dict dict2 ON site.station_type = dict2.id
+        <where>
+            <if test="stationName != null and stationName != ''">
+                And site.station_name LIKE CONCAT('%','${stationName}','%')
+            </if>
+            <if test="jctId != null and jctId != ''">
+                And dict1.id = #{jctId}
+            </if>
+            <if test="stationType != null and stationType != ''">
+                And dict2.id = #{stationType}
+            </if>
+            <if test="attributeGround != null and attributeGround != ''">
+                And site.attribute_ground LIKE CONCAT('%','${attributeGround}','%')
+            </if>
+        </where>
+        order by site.use_start_date DESC
+    </select>
+    <!--查询运行情况-->
+    <sql id="runResult">
+        run.id id,
+        dict2.dict_name jctId,
+        site.station_name stationName,
+        dict.dict_name bugType,
+        run.occur_date occurDate,
+        run.bug_reason bugReason,
+        run. COMMENT COMMENT
+    </sql>
+    <select id="getAllRunInfo" resultType="cn.ixan.elec.vo.ElecRunVo">
+        SELECT
+        <include refid="runResult"/>
+        FROM
+        elec_run AS run
+        LEFT JOIN elec_dict dict ON run.bug_type = dict.id
+        LEFT JOIN elec_station site ON run.station_id = site.id
+        LEFT JOIN elec_dict dict2 ON site.jct_id = dict2.id
+    </select>
+    <!--获取所有站点名称-->
+    <select id="getStationNames" resultType="map">
+        SELECT
+            site.id id,
+            site.station_name name
+        FROM
+            elec_station site
+    </select>
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecUserMapper" >
+  <resultMap id="BaseResultMap" type="cn.ixan.elec.domain.ElecUser" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="jct_id" property="jctId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="logon_name" property="logonName" jdbcType="VARCHAR" />
+    <result column="logon_pwd" property="logonPwd" jdbcType="VARCHAR" />
+    <result column="sex_id" property="sexId" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="contact_tel" property="contactTel" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_duty" property="isDuty" jdbcType="VARCHAR" />
+    <result column="post_id" property="postId" jdbcType="VARCHAR" />
+    <result column="on_duty_date" property="onDutyDate" jdbcType="DATE" />
+    <result column="off_duty_date" property="offDutyDate" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, jct_id, user_name, logon_name, logon_pwd, sex_id, birthday, address, contact_tel, 
+    email, is_duty, post_id, on_duty_date, off_duty_date, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.ixan.elec.domain.ElecUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from elec_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from elec_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from elec_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.ixan.elec.domain.ElecUserExample" >
+    delete from elec_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.ixan.elec.domain.ElecUser" >
+    <selectKey resultType="java.lang.String" order="BEFORE"
+               keyProperty="userId">
+      select replace(UUID(),'-','') from dual
+    </selectKey>
+    insert into elec_user (user_id, jct_id, user_name, 
+      logon_name, logon_pwd, sex_id, 
+      birthday, address, contact_tel, 
+      email, is_duty,
+      post_id, on_duty_date, off_duty_date, 
+      remark)
+    values (#{userId,jdbcType=VARCHAR}, #{jctId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{logonName,jdbcType=VARCHAR}, #{logonPwd,jdbcType=VARCHAR}, #{sexId,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{isDuty,jdbcType=VARCHAR},
+      #{postId,jdbcType=VARCHAR}, #{onDutyDate,jdbcType=DATE}, #{offDutyDate,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ixan.elec.domain.ElecUser" >
+    <selectKey resultType="java.lang.String" order="BEFORE"
+               keyProperty="userId">
+      select replace(UUID(),'-','') from dual
+    </selectKey>
+    insert into elec_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="jctId != null" >
+        jct_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="logonName != null" >
+        logon_name,
+      </if>
+      <if test="logonPwd != null" >
+        logon_pwd,
+      </if>
+      <if test="sexId != null" >
+        sex_id,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="contactTel != null" >
+        contact_tel,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="isDuty != null" >
+        is_duty,
+      </if>
+      <if test="postId != null" >
+        post_id,
+      </if>
+      <if test="onDutyDate != null" >
+        on_duty_date,
+      </if>
+      <if test="offDutyDate != null" >
+        off_duty_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="jctId != null" >
+        #{jctId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="logonName != null" >
+        #{logonName,jdbcType=VARCHAR},
+      </if>
+      <if test="logonPwd != null" >
+        #{logonPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="sexId != null" >
+        #{sexId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDuty != null" >
+        #{isDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="onDutyDate != null" >
+        #{onDutyDate,jdbcType=DATE},
+      </if>
+      <if test="offDutyDate != null" >
+        #{offDutyDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.ixan.elec.domain.ElecUserExample" resultType="java.lang.Integer" >
+    select count(*) from elec_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update elec_user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jctId != null" >
+        jct_id = #{record.jctId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logonName != null" >
+        logon_name = #{record.logonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logonPwd != null" >
+        logon_pwd = #{record.logonPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sexId != null" >
+        sex_id = #{record.sexId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactTel != null" >
+        contact_tel = #{record.contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDuty != null" >
+        is_duty = #{record.isDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null" >
+        post_id = #{record.postId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onDutyDate != null" >
+        on_duty_date = #{record.onDutyDate,jdbcType=DATE},
+      </if>
+      <if test="record.offDutyDate != null" >
+        off_duty_date = #{record.offDutyDate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update elec_user
+    set user_id = #{record.userId,jdbcType=VARCHAR},
+      jct_id = #{record.jctId,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      logon_name = #{record.logonName,jdbcType=VARCHAR},
+      logon_pwd = #{record.logonPwd,jdbcType=VARCHAR},
+      sex_id = #{record.sexId,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      address = #{record.address,jdbcType=VARCHAR},
+      contact_tel = #{record.contactTel,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      is_duty = #{record.isDuty,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=VARCHAR},
+      on_duty_date = #{record.onDutyDate,jdbcType=DATE},
+      off_duty_date = #{record.offDutyDate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ixan.elec.domain.ElecUser" >
+    update elec_user
+    <set >
+      <if test="jctId != null" >
+        jct_id = #{jctId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="logonName != null" >
+        logon_name = #{logonName,jdbcType=VARCHAR},
+      </if>
+      <if test="logonPwd != null" >
+        logon_pwd = #{logonPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="sexId != null" >
+        sex_id = #{sexId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        contact_tel = #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDuty != null" >
+        is_duty = #{isDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null" >
+        post_id = #{postId,jdbcType=VARCHAR},
+      </if>
+      <if test="onDutyDate != null" >
+        on_duty_date = #{onDutyDate,jdbcType=DATE},
+      </if>
+      <if test="offDutyDate != null" >
+        off_duty_date = #{offDutyDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ixan.elec.domain.ElecUser" >
+    update elec_user
+    set jct_id = #{jctId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      logon_name = #{logonName,jdbcType=VARCHAR},
+      logon_pwd = #{logonPwd,jdbcType=VARCHAR},
+      sex_id = #{sexId,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      address = #{address,jdbcType=VARCHAR},
+      contact_tel = #{contactTel,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_duty = #{isDuty,jdbcType=VARCHAR},
+      post_id = #{postId,jdbcType=VARCHAR},
+      on_duty_date = #{onDutyDate,jdbcType=DATE},
+      off_duty_date = #{offDutyDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <!--获取所有区域信息-->
+  <sql id="ddlResult">
+      dict.dict_id dictId,dict.dict_type dictType,dict.dict_code dictCode,dict.dict_name dictName
+  </sql>
+  <select id="getRegions" parameterType="string" resultType="cn.ixan.elec.domain.ElecDict">
+    SELECT
+        <include refid="ddlResult"/>
+    FROM elec_dict dict where dict.dict_type = #{value}
+  </select>
+  <!--模糊查询所有用户-->
+  <sql id="baseResult">
+    u.user_id userId,
+	dict3.dict_name jctId,
+	u.user_name userName,
+	u.logon_name logonName,
+	dict1.dict_name sexId,
+	u.address address,
+	u.contact_tel contactTel,
+	u.email email,
+	dict2.dict_name postId,
+	u.on_duty_date onDutyDate,
+	u.remark remark
+  </sql>
+  <select id="findAllUser" resultType="cn.ixan.elec.vo.ElecUserVo">
+    SELECT
+    <include refid="baseResult"/>
+    FROM
+    elec_user u
+    left join elec_dict dict1
+    on u.sex_id = dict1.id
+    LEFT JOIN elec_dict dict2
+    on u.post_id = dict2.id
+    left join elec_dict dict3
+    on u.jct_id = dict3.id
+  </select>
+  <!--模糊查询用户-->
+  <select id="queryUserByExample" parameterType="cn.ixan.elec.domain.ElecUser" resultType="cn.ixan.elec.vo.ElecUserVo">
+    SELECT
+    <include refid="baseResult"/>
+    FROM
+    elec_user u
+    left join elec_dict dict1
+    on u.sex_id = dict1.id
+    LEFT JOIN elec_dict dict2
+    on u.post_id = dict2.id
+    left join elec_dict dict3
+    on u.jct_id = dict3.id
+    <where>
+      <if test="userName != null and userName != ''">
+        And u.user_name LIKE CONCAT('%','${userName}','%')
+      </if>
+      <if test="sexId != null and sexId != ''">
+        And dict1.id = #{sexId}
+      </if>
+      <if test="jctId != null and jctId != ''">
+        And dict3.id = #{jctId}
+      </if>
+      <if test="postId != null and postId != ''">
+        And dict2.id = #{postId}
+      </if>
+    </where>
+  </select>
+  <!--查询所有用户-->
+  <sql id="allUserVal">
+    u.jct_id jctId,
+    u.user_name userName,
+    u.logon_name logonName,
+    u.logon_pwd logonPwd,
+    u.sex_id sexId,
+    u.birthday birthday,
+    u.address address,
+    u.contact_tel contactTel,
+    u.email email,
+    u.is_duty isDuty,
+    u.post_id postId,
+    u.on_duty_date onDutyDate,
+    u.off_duty_date offDutyDate,
+    u.remark remark
+  </sql>
+  <select id="findAll" resultType="cn.ixan.elec.domain.ElecUser">
+      SELECT <include refid="allUserVal"/> FROM elec_user u
+  </select>
+    <select id="findByLogonName" parameterType="string" resultType="cn.ixan.elec.domain.ElecUser">
+        SELECT <include refid="allUserVal"/> FROM elec_user u where u.logon_name = #{value}
+    </select>
+</mapper>

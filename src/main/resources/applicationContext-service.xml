@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.0.xsd
+        http://www.springframework.org/schema/cache
+	    http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <!-- service层的组件扫描 -->
+    <context:component-scan base-package="cn.ixan.elec.service" />
+
+    <!-- 事物管理配置 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 支持文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 请求编码格式 -->
+        <property name="defaultEncoding" value="utf-8"></property>
+        <!-- 上传文件大小(单位:字节) -->
+        <property name="maxUploadSize" value="50000000"></property>
+        <!-- 缓冲区大小(单位:KB) -->
+        <property name="maxInMemorySize" value="1024"></property>
+    </bean>
+    <!-- 通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 传播行为 -->
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    <!-- 切面 -->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice"
+                     pointcut="execution(* cn.ixan.elec.service.*.*(..))" />
+    </aop:config>
+    <aop:aspectj-autoproxy />
+    <bean id="controllerAOP" class="cn.ixan.elec.exception.ControllerAOP" />
+    <aop:config>
+        <aop:aspect id="myAop" ref="controllerAOP">
+            <aop:pointcut id="target"
+                          expression="execution(* cn.ixan.elec.controller.*.*(..))" />
+            <aop:around method="handlerControllerMethod" pointcut-ref="target" />
+        </aop:aspect>
+    </aop:config>
+
+
+
+    <!-- Shiro过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 身份认证失败，则跳转到登录页面的配置 -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!-- 权限认证失败，则跳转到指定页面 -->
+        <property name="unauthorizedUrl" value="/error.jsp"/>
+        <!-- Shiro连接约束配置,即过滤链的定义 -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- 对静态资源设置匿名访问 -->
+                /error.jsp = anon
+                /500.jsp = anon
+                /login.jsp = anon
+                /css/** = anon
+                /data/** = anon
+                /images/** = anon
+                /js/** = anon
+                <!--开放错误页面-->
+                /404.jsp = anon
+                /500.jsp = anon
+                <!-- 对动态资源设置匿名访问 -->
+                /system/login.action = anon
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+
+    <!-- 开启Shiro注解 -->
+    <bean id="defaultAdvisorAutoProxyCreator"  class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <!--
+            两种代理方式：
+            第一种：cglib动态代理，基于继承实现
+                UserAction - 目标类
+                ProxyAction extends UserAction- 代理类
+            第二种：java动态代理，基于接口实现
+                UserAction implements ModelDriven - 目标类
+                ProxyAction implements ModelDriven - 代理类
+            proxyTargetClass:设置使用哪种方式生成代理类，true-第一种cglib；false-第二种java，默认值是false
+         -->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm" />
+        <property name="cacheManager" ref="shiroCacheManager" />
+    </bean>
+
+    <!-- 自定义Realm -->
+    <bean id="userRealm" class="cn.ixan.elec.controller.UserRealm">
+        <property name="authorizationCacheName" value="shiro" />
+    </bean>
+
+    <!-- 后处理器 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+            depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <!-- spring管理ehcache缓存管理器 -->
+    <bean id="ehcacheManager"
+          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>
+    <!-- shiro整合ehcache 缓存管理器 -->
+    <bean id="shiroCacheManager"
+          class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+    <!-- spring缓存管理器，整合ehcache -->
+    <bean id="springCacheManager"
+          class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+
+    <cache:annotation-driven cache-manager="springCacheManager"/>
+
+</beans>

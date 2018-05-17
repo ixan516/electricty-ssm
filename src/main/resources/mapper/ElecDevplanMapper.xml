@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecDevplanMapper" >
+    <resultMap id="BaseResultMap" type="cn.ixan.elec.domain.ElecDevplan" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="dev_type" property="devType" jdbcType="VARCHAR" />
+        <result column="dev_name" property="devName" jdbcType="VARCHAR" />
+        <result column="trade_mark" property="tradeMark" jdbcType="VARCHAR" />
+        <result column="spec_type" property="specType" jdbcType="VARCHAR" />
+        <result column="produce_home" property="produceHome" jdbcType="VARCHAR" />
+        <result column="quality" property="quality" jdbcType="INTEGER" />
+        <result column="qunit" property="qunit" jdbcType="VARCHAR" />
+        <result column="useness" property="useness" jdbcType="VARCHAR" />
+        <result column="produce_area" property="produceArea" jdbcType="VARCHAR" />
+        <result column="dev_expense" property="devExpense" jdbcType="DOUBLE" />
+        <result column="use_unit" property="useUnit" jdbcType="VARCHAR" />
+        <result column="jct_id" property="jctId" jdbcType="VARCHAR" />
+        <result column="plan_date" property="planDate" jdbcType="DATE" />
+        <result column="adjust_period" property="adjustPeriod" jdbcType="VARCHAR" />
+        <result column="ap_unit" property="apUnit" jdbcType="VARCHAR" />
+        <result column="repair_cycle" property="repairCycle" jdbcType="VARCHAR" />
+        <result column="op_unit" property="opUnit" jdbcType="VARCHAR" />
+        <result column="configure" property="configure" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, dev_type, dev_name, trade_mark, spec_type, produce_home, quality, qunit, useness,
+        produce_area, dev_expense, use_unit, jct_id, plan_date, adjust_period, ap_unit, repair_cycle,
+        op_unit, configure
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.ixan.elec.domain.ElecDevplanExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from elec_devplan
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from elec_devplan
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from elec_devplan
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="cn.ixan.elec.domain.ElecDevplanExample" >
+        delete from elec_devplan
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="cn.ixan.elec.domain.ElecDevplan" >
+        insert into elec_devplan
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        (id, dev_type, dev_name,
+        trade_mark, spec_type, produce_home,
+        quality, qunit, useness,
+        produce_area, dev_expense, use_unit,
+        jct_id, plan_date, adjust_period,
+        ap_unit, repair_cycle, op_unit,
+        configure)
+        values (#{id,jdbcType=VARCHAR}, #{devType,jdbcType=VARCHAR}, #{devName,jdbcType=VARCHAR},
+        #{tradeMark,jdbcType=VARCHAR}, #{specType,jdbcType=VARCHAR}, #{produceHome,jdbcType=VARCHAR},
+        #{quality,jdbcType=INTEGER}, #{qunit,jdbcType=VARCHAR}, #{useness,jdbcType=VARCHAR},
+        #{produceArea,jdbcType=VARCHAR}, #{devExpense,jdbcType=DOUBLE}, #{useUnit,jdbcType=VARCHAR},
+        #{jctId,jdbcType=VARCHAR}, #{planDate,jdbcType=DATE}, #{adjustPeriod,jdbcType=VARCHAR},
+        #{apUnit,jdbcType=VARCHAR}, #{repairCycle,jdbcType=VARCHAR}, #{opUnit,jdbcType=VARCHAR},
+        #{configure,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.ixan.elec.domain.ElecDevplan" >
+        insert into elec_devplan
+        <selectKey resultType="java.lang.String" order="BEFORE"
+                   keyProperty="id">
+            select replace(UUID(),'-','') from dual
+        </selectKey>
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="devType != null" >
+                dev_type,
+            </if>
+            <if test="devName != null" >
+                dev_name,
+            </if>
+            <if test="tradeMark != null" >
+                trade_mark,
+            </if>
+            <if test="specType != null" >
+                spec_type,
+            </if>
+            <if test="produceHome != null" >
+                produce_home,
+            </if>
+            <if test="quality != null" >
+                quality,
+            </if>
+            <if test="qunit != null" >
+                qunit,
+            </if>
+            <if test="useness != null" >
+                useness,
+            </if>
+            <if test="produceArea != null" >
+                produce_area,
+            </if>
+            <if test="devExpense != null" >
+                dev_expense,
+            </if>
+            <if test="useUnit != null" >
+                use_unit,
+            </if>
+            <if test="jctId != null" >
+                jct_id,
+            </if>
+            <if test="planDate != null" >
+                plan_date,
+            </if>
+            <if test="adjustPeriod != null" >
+                adjust_period,
+            </if>
+            <if test="apUnit != null" >
+                ap_unit,
+            </if>
+            <if test="repairCycle != null" >
+                repair_cycle,
+            </if>
+            <if test="opUnit != null" >
+                op_unit,
+            </if>
+            <if test="configure != null" >
+                configure,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="devType != null" >
+                #{devType,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null" >
+                #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMark != null" >
+                #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="specType != null" >
+                #{specType,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="quality != null" >
+                #{quality,jdbcType=INTEGER},
+            </if>
+            <if test="qunit != null" >
+                #{qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="useness != null" >
+                #{useness,jdbcType=VARCHAR},
+            </if>
+            <if test="produceArea != null" >
+                #{produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="devExpense != null" >
+                #{devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useUnit != null" >
+                #{useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="jctId != null" >
+                #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="planDate != null" >
+                #{planDate,jdbcType=DATE},
+            </if>
+            <if test="adjustPeriod != null" >
+                #{adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="apUnit != null" >
+                #{apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="repairCycle != null" >
+                #{repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="opUnit != null" >
+                #{opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="configure != null" >
+                #{configure,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="cn.ixan.elec.domain.ElecDevplanExample" resultType="java.lang.Integer" >
+        select count(*) from elec_devplan
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update elec_devplan
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devType != null" >
+                dev_type = #{record.devType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devName != null" >
+                dev_name = #{record.devName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tradeMark != null" >
+                trade_mark = #{record.tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.specType != null" >
+                spec_type = #{record.specType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.produceHome != null" >
+                produce_home = #{record.produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="record.quality != null" >
+                quality = #{record.quality,jdbcType=INTEGER},
+            </if>
+            <if test="record.qunit != null" >
+                qunit = #{record.qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.useness != null" >
+                useness = #{record.useness,jdbcType=VARCHAR},
+            </if>
+            <if test="record.produceArea != null" >
+                produce_area = #{record.produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="record.devExpense != null" >
+                dev_expense = #{record.devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="record.useUnit != null" >
+                use_unit = #{record.useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jctId != null" >
+                jct_id = #{record.jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.planDate != null" >
+                plan_date = #{record.planDate,jdbcType=DATE},
+            </if>
+            <if test="record.adjustPeriod != null" >
+                adjust_period = #{record.adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="record.apUnit != null" >
+                ap_unit = #{record.apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.repairCycle != null" >
+                repair_cycle = #{record.repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="record.opUnit != null" >
+                op_unit = #{record.opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="record.configure != null" >
+                configure = #{record.configure,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update elec_devplan
+        set id = #{record.id,jdbcType=INTEGER},
+        dev_type = #{record.devType,jdbcType=VARCHAR},
+        dev_name = #{record.devName,jdbcType=VARCHAR},
+        trade_mark = #{record.tradeMark,jdbcType=VARCHAR},
+        spec_type = #{record.specType,jdbcType=VARCHAR},
+        produce_home = #{record.produceHome,jdbcType=VARCHAR},
+        quality = #{record.quality,jdbcType=INTEGER},
+        qunit = #{record.qunit,jdbcType=VARCHAR},
+        useness = #{record.useness,jdbcType=VARCHAR},
+        produce_area = #{record.produceArea,jdbcType=VARCHAR},
+        dev_expense = #{record.devExpense,jdbcType=DOUBLE},
+        use_unit = #{record.useUnit,jdbcType=VARCHAR},
+        jct_id = #{record.jctId,jdbcType=VARCHAR},
+        plan_date = #{record.planDate,jdbcType=DATE},
+        adjust_period = #{record.adjustPeriod,jdbcType=VARCHAR},
+        ap_unit = #{record.apUnit,jdbcType=VARCHAR},
+        repair_cycle = #{record.repairCycle,jdbcType=VARCHAR},
+        op_unit = #{record.opUnit,jdbcType=VARCHAR},
+        configure = #{record.configure,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.ixan.elec.domain.ElecDevplan" >
+        update elec_devplan
+        <set >
+            <if test="devType != null" >
+                dev_type = #{devType,jdbcType=VARCHAR},
+            </if>
+            <if test="devName != null" >
+                dev_name = #{devName,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeMark != null" >
+                trade_mark = #{tradeMark,jdbcType=VARCHAR},
+            </if>
+            <if test="specType != null" >
+                spec_type = #{specType,jdbcType=VARCHAR},
+            </if>
+            <if test="produceHome != null" >
+                produce_home = #{produceHome,jdbcType=VARCHAR},
+            </if>
+            <if test="quality != null" >
+                quality = #{quality,jdbcType=INTEGER},
+            </if>
+            <if test="qunit != null" >
+                qunit = #{qunit,jdbcType=VARCHAR},
+            </if>
+            <if test="useness != null" >
+                useness = #{useness,jdbcType=VARCHAR},
+            </if>
+            <if test="produceArea != null" >
+                produce_area = #{produceArea,jdbcType=VARCHAR},
+            </if>
+            <if test="devExpense != null" >
+                dev_expense = #{devExpense,jdbcType=DOUBLE},
+            </if>
+            <if test="useUnit != null" >
+                use_unit = #{useUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="jctId != null" >
+                jct_id = #{jctId,jdbcType=VARCHAR},
+            </if>
+            <if test="planDate != null" >
+                plan_date = #{planDate,jdbcType=DATE},
+            </if>
+            <if test="adjustPeriod != null" >
+                adjust_period = #{adjustPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="apUnit != null" >
+                ap_unit = #{apUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="repairCycle != null" >
+                repair_cycle = #{repairCycle,jdbcType=VARCHAR},
+            </if>
+            <if test="opUnit != null" >
+                op_unit = #{opUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="configure != null" >
+                configure = #{configure,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.ixan.elec.domain.ElecDevplan" >
+    update elec_devplan
+    set dev_type = #{devType,jdbcType=VARCHAR},
+      dev_name = #{devName,jdbcType=VARCHAR},
+      trade_mark = #{tradeMark,jdbcType=VARCHAR},
+      spec_type = #{specType,jdbcType=VARCHAR},
+      produce_home = #{produceHome,jdbcType=VARCHAR},
+      quality = #{quality,jdbcType=INTEGER},
+      qunit = #{qunit,jdbcType=VARCHAR},
+      useness = #{useness,jdbcType=VARCHAR},
+      produce_area = #{produceArea,jdbcType=VARCHAR},
+      dev_expense = #{devExpense,jdbcType=DOUBLE},
+      use_unit = #{useUnit,jdbcType=VARCHAR},
+      jct_id = #{jctId,jdbcType=VARCHAR},
+      plan_date = #{planDate,jdbcType=DATE},
+      adjust_period = #{adjustPeriod,jdbcType=VARCHAR},
+      ap_unit = #{apUnit,jdbcType=VARCHAR},
+      repair_cycle = #{repairCycle,jdbcType=VARCHAR},
+      op_unit = #{opUnit,jdbcType=VARCHAR},
+      configure = #{configure,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!--查询所有的设备购置计划-->
+    <sql id="devPlanResult">
+        dev.id id,
+        dev.dev_name devName,
+        dev.quality quality,
+        dev.dev_expense devExpense,
+        dev.spec_type specType,
+        dev.useness useness,
+        dev.use_unit useUnit,
+        dev.configure configure
+    </sql>
+    <select id="findAllDevPlan" resultType="cn.ixan.elec.vo.ElecDevPlanVo">
+        SELECT
+        <include refid="devPlanResult"/>
+        FROM elec_devplan AS dev
+    </select>
+</mapper>

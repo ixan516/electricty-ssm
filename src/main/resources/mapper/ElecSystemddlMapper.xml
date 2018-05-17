@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ixan.elec.mapper.ElecSystemddlMapper">
+    <select id="getDicts" resultType="cn.ixan.elec.domain.ElecDict">
+      SELECT <include refid="ddlResult"/> FROM elec_dict dict
+  </select>
+
+    <sql id="ddlResult">
+      dict.id id,dict.pId pId,dict.is_parent isParent,dict.dict_name dictName
+    </sql>
+    <select id="findByKeyword" parameterType="map" resultType="cn.ixan.elec.domain.ElecDict">
+        SELECT <include refid="ddlResult"/>
+        FROM elec_dict dict
+        WHERE dict.dict_type = #{keyword}
+        ORDER BY dict.dict_code
+    </select>
+    <select id="findDictBypId" parameterType="map" resultType="cn.ixan.elec.vo.ElecDictVo">
+        SELECT id,dict_name dictName
+        FROM elec_dict AS dict
+        WHERE dict.pId = #{pId}
+    </select>
+</mapper>
